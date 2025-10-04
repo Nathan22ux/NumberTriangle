@@ -127,11 +127,13 @@ public class NumberTriangle {
         NumberTriangle top = null;
         List<NumberTriangle> prevRow = new ArrayList<>();
         String line = br.readLine();
+
         while (line != null) {
 
             String s = line.trim();
             if (!s.isEmpty()) {
                 String[] parts = s.split("\\s+");
+
 
                 List<NumberTriangle> currRow = new ArrayList<>(parts.length);
                 for (int i = 0; i < parts.length; i++) {
@@ -143,10 +145,10 @@ public class NumberTriangle {
                 }
 
                 if (!prevRow.isEmpty()) {
-                    for (int j = 0; j < prevRow.size(); j++) {
-                        NumberTriangle parent = prevRow.get(j);
-                        parent.setLeft(currRow.get(j));
-                        parent.setRight(currRow.get(j + 1));
+                    for (int i = 0; i < prevRow.size(); i++) {
+                        NumberTriangle parent = prevRow.get(i);
+                        parent.setLeft(currRow.get(i));
+                        parent.setRight(currRow.get(i + 1));
                     }
                 }
 
