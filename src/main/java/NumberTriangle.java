@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -88,8 +89,17 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+
+        NumberTriangle curr = this;
+        for (int i = 0; i < path.length(); i++) {
+            char ch = path.charAt(i);
+            if (ch == 'l') {
+                curr = curr.left;
+            } else { // 'r'
+                curr = curr.right;
+            }
+        }
+        return curr.root;
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -115,12 +125,33 @@ public class NumberTriangle {
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
         NumberTriangle top = null;
-
+        List<NumberTriangle> prevRow = new ArrayList<>();
         String line = br.readLine();
         while (line != null) {
 
-            // remove when done; this line is included so running starter code prints the contents of the file
-            System.out.println(line);
+            String s = line.trim();
+            if (!s.isEmpty()) {
+                String[] parts = s.split("\\s+");
+
+                List<NumberTriangle> currRow = new ArrayList<>(parts.length);
+                for (int i = 0; i < parts.length; i++) {
+                    currRow.add(new NumberTriangle(Integer.parseInt(parts[i])));
+                }
+
+                if (top == null) {
+                    top = currRow.get(0);
+                }
+
+                if (!prevRow.isEmpty()) {
+                    for (int i = 0; i < prevRow.size(); i++) {
+                        NumberTriangle parent = prevRow.get(i);
+                        parent.setLeft(currRow.get(i));
+                        parent.setRight(currRow.get(i + 1));
+                    }
+                }
+
+                prevRow = currRow;
+            }
 
             // TODO process the line
 
